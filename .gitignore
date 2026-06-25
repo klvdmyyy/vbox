@@ -1,0 +1,18 @@
+# clangd cache files
+.cache/
+
+# Visual Studio files
+.vs
+
+# CMake build files
+build/
+out/
+
+# Binaries
+bin/
+
+# Configured file
+runtime/include/core/base.h
+
+# TAGS files
+TAGS
