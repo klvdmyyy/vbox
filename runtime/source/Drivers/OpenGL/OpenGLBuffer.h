@@ -1,3 +1,4 @@
+// -*- mode: c++; -*-
 #pragma once
 
 #include "Core/Base.h"
@@ -18,13 +19,13 @@ namespace ERUNTIME_NAMESPACE
         void Unbind() const final;
 
         const BufferLayout &GetLayout() const noexcept final {
-          return m_Layout;
+          return m_layout;
         }
-        void SetLayout(const BufferLayout &layout) final { m_Layout = layout; }
+        void SetLayout(const BufferLayout &layout) final { m_layout = layout; }
 
     private:
-        GLuint m_VBO;
-        BufferLayout m_Layout;
+        GLuint m_vbo;
+        BufferLayout m_layout;
     };
 
     class ERUNTIME_API OpenGLIndexBuffer : public IndexBuffer
@@ -36,10 +37,10 @@ namespace ERUNTIME_NAMESPACE
         void Bind() const final;
         void Unbind() const final;
 
-        uint32_t GetCount() const final { return m_Count; }
+        uint32_t GetCount() const final { return m_count; }
     
     private:
-        GLuint m_EBO;
-        uint32_t m_Count;
+        GLuint m_ebo;
+        uint32_t m_count;
     };
 }

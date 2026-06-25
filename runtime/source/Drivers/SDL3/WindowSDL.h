@@ -1,3 +1,4 @@
+// -*- mode: c++; -*-
 #pragma once
 
 #include "WSI/Window.h"
@@ -16,10 +17,10 @@ namespace ERUNTIME_NAMESPACE
         
         void* GetWindowHandle() const final
         {
-            return static_cast<void*>(m_Window);
+            return static_cast<void*>(m_window);
         }
 
     private:
-        SDL_Window* m_Window;
+        SDL_Window* m_window;
     };
 }

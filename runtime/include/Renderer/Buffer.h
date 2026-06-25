@@ -59,22 +59,22 @@ namespace ERUNTIME_NAMESPACE
 
     struct ERUNTIME_API BufferElement
     {
-        String Name;
-        ShaderDataType Type;
-        uint32_t Size;
-        size_t Offset;
-        bool Normalized;
+        String name;
+        ShaderDataType type;
+        uint32_t size;
+        size_t offset;
+        bool normalized;
 
         BufferElement(const String& name, ShaderDataType type, bool normalized = false)
-            : Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0),
-              Normalized(normalized)
+            : name(name), type(type), size(ShaderDataTypeSize(type)), offset(0),
+              normalized(normalized)
         {
         }
 
         [[nodiscard]]
         uint32_t GetComponentCount() const
         {
-            switch (Type) {
+            switch (type) {
             case ShaderDataType::None:
                 return 0;
             case ShaderDataType::Bool:
@@ -101,7 +101,7 @@ namespace ERUNTIME_NAMESPACE
                 return 4 * 4;
             }
 
-            EX_ASSERT(false, "Unknown ShaderDataType: {}", static_cast<int>(Type));
+            EX_ASSERT(false, "Unknown ShaderDataType: {}", static_cast<int>(type));
             return 0;
         }
     };
@@ -111,7 +111,7 @@ namespace ERUNTIME_NAMESPACE
     public:
         BufferLayout() { }
         BufferLayout(const std::initializer_list<BufferElement>& elements)
-            : m_Elements(elements)
+            : m_elements(elements)
         {
             CalculateOffsetAndStride();
         }
@@ -119,39 +119,39 @@ namespace ERUNTIME_NAMESPACE
         [[nodiscard]]
         uint32_t GetStride() const noexcept
         {
-            return m_Stride;
+            return m_stride;
         }
 
         const std::vector<BufferElement> &GetElements() const {
-          return m_Elements;
+          return m_elements;
         }
 
         std::vector<BufferElement>::iterator begin() {
-          return m_Elements.begin();
+          return m_elements.begin();
         }
-        std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
+        std::vector<BufferElement>::iterator end() { return m_elements.end(); }
         std::vector<BufferElement>::const_iterator begin() const {
-          return m_Elements.begin();
+          return m_elements.begin();
         }
         std::vector<BufferElement>::const_iterator end() const {
-          return m_Elements.end();
+          return m_elements.end();
         }
 
     private:
         void CalculateOffsetAndStride()
         {
             uint32_t offset = 0;
-            m_Stride = 0;
-            for(auto& element : m_Elements)
+            m_stride = 0;
+            for(auto& element : m_elements)
             {
-                element.Offset = offset;
-                offset += element.Size;
-                m_Stride += element.Size;
+                element.offset = offset;
+                offset += element.size;
+                m_stride += element.size;
             }
         }
 
-        std::vector<BufferElement> m_Elements;
-        uint32_t m_Stride = 0;
+        std::vector<BufferElement> m_elements;
+        uint32_t m_stride = 0;
     };
 
     class ERUNTIME_API VertexBuffer

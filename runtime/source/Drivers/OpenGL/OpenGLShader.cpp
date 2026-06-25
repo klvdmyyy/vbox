@@ -64,23 +64,23 @@ namespace ERUNTIME_NAMESPACE
         auto fragShader =
             CompileOpenGLShader(fragmentSource, GL_FRAGMENT_SHADER);
 
-        m_Program = glCreateProgram();
+        m_program = glCreateProgram();
 
-        glAttachShader(m_Program, vertShader);
-        glAttachShader(m_Program, fragShader);
-        glLinkProgram(m_Program);
+        glAttachShader(m_program, vertShader);
+        glAttachShader(m_program, fragShader);
+        glLinkProgram(m_program);
 
         GLint isLinked = 0;
-        glGetProgramiv(m_Program, GL_LINK_STATUS, &isLinked);
+        glGetProgramiv(m_program, GL_LINK_STATUS, &isLinked);
         if (isLinked == GL_FALSE)
         {
             GLint maxLenght = 0;
-          glGetProgramiv(m_Program, GL_INFO_LOG_LENGTH, &maxLenght);
+          glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &maxLenght);
 
             std::vector<GLchar> infoLog(maxLenght);
-          glGetProgramInfoLog(m_Program, maxLenght, &maxLenght, &infoLog[0]);
+          glGetProgramInfoLog(m_program, maxLenght, &maxLenght, &infoLog[0]);
 
-            glDeleteProgram(m_Program);
+            glDeleteProgram(m_program);
             glDeleteShader(vertShader);
             glDeleteShader(fragShader);
 
@@ -90,16 +90,16 @@ namespace ERUNTIME_NAMESPACE
             /* TODO: Error log + Assertion!!!!!! Failed to link program. Info message in `info_log` variable */
         }
 
-        glDetachShader(m_Program, vertShader);
-        glDetachShader(m_Program, fragShader);
+        glDetachShader(m_program, vertShader);
+        glDetachShader(m_program, fragShader);
     }
 
     OpenGLShader::~OpenGLShader()
-    { glDeleteProgram(m_Program);
+    { glDeleteProgram(m_program);
     }
 
     void OpenGLShader::Bind() const
-    { glUseProgram(m_Program);
+    { glUseProgram(m_program);
     }
 
     void OpenGLShader::Unbind() const

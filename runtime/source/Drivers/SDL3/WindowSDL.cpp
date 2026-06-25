@@ -33,19 +33,19 @@ namespace ERUNTIME_NAMESPACE {
 
         Uint32 flags = SDL_WINDOW_OPENGL;
         
-        if(spec.Resizable)
+        if(spec.resizable)
             flags |= SDL_WINDOW_RESIZABLE;
 
-        m_Window = SDL_CreateWindow(spec.Title.c_str(), spec.Width, spec.Height, flags);
+        m_window = SDL_CreateWindow(spec.title.c_str(), spec.width, spec.height, flags);
 
-        EX_ASSERT(m_Window, "failed to create sdl window. sdl error: {}", SDL_GetError());
+        EX_ASSERT(m_window, "failed to create sdl window. sdl error: {}", SDL_GetError());
 
-        SDL_SetWindowFullscreen(m_Window, spec.Fullscreen);
+        SDL_SetWindowFullscreen(m_window, spec.fullscreen);
     }
 
     WindowSDL::~WindowSDL()
     {
-        SDL_DestroyWindow(m_Window);
+        SDL_DestroyWindow(m_window);
         SDL_Quit();
     }
 

@@ -39,15 +39,15 @@ namespace ERUNTIME_NAMESPACE {
 
     OpenGLVertexArray::OpenGLVertexArray()
     {
-        glCreateVertexArrays(1, &m_VAO);
+        glCreateVertexArrays(1, &m_vao);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray()
-    { glDeleteVertexArrays(1, &m_VAO);
+    { glDeleteVertexArrays(1, &m_vao);
     }
 
     void OpenGLVertexArray::Bind() const
-    { glBindVertexArray(m_VAO);
+    { glBindVertexArray(m_vao);
     }
 
     void OpenGLVertexArray::Unbind() const
@@ -71,14 +71,14 @@ namespace ERUNTIME_NAMESPACE {
         {
             glEnableVertexAttribArray(index);
           glVertexAttribPointer(index, element.GetComponentCount(),
-                                ShaderDataTypeToGLenum(element.Type),
-                                element.Normalized ? GL_TRUE : GL_FALSE,
+                                ShaderDataTypeToGLenum(element.type),
+                                element.normalized ? GL_TRUE : GL_FALSE,
                                 layout.GetStride(),
-                                reinterpret_cast<const void *>(element.Offset));
+                                reinterpret_cast<const void *>(element.offset));
             index++;
         }
 
-        m_VertexBuffers.push_back(vertexBuffer);
+        m_vertexBuffers.push_back(vertexBuffer);
 
         vertexBuffer->Unbind();
 
@@ -92,7 +92,7 @@ namespace ERUNTIME_NAMESPACE {
 
         indexBuffer->Bind();
 
-        m_IndexBuffer = indexBuffer;
+        m_indexBuffer = indexBuffer;
 
         this->Unbind();
 

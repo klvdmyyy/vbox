@@ -41,12 +41,12 @@ namespace ERUNTIME_NAMESPACE
 
     struct LogEntry
     {
-        LogLevel Level;
-        const char *Category;
-        StringView Message;
-        std::optional<const char *> SourceFile;
-        std::optional<int> Line;
-        std::optional<const char *> FunctionSignature;
+        LogLevel level;
+        const char *category;
+        StringView message;
+        std::optional<const char *> sourceFile;
+        std::optional<int> line;
+        std::optional<const char *> functionSignature;
     };
 
     class ERUNTIME_API LogSink
@@ -71,8 +71,8 @@ namespace ERUNTIME_NAMESPACE
                  std::optional<const char *> functionSignature = std::nullopt);
 
         private:
-        std::vector<Scope<LogSink>> m_Sinks;
-        std::mutex m_Sync;
+        std::vector<Scope<LogSink>> m_sinks;
+        std::mutex m_sync;
         };
 
 
@@ -82,31 +82,31 @@ namespace ERUNTIME_NAMESPACE
         template<typename... Args>
         void Trace(const char* category, std::format_string<Args...> fmt, Args&&... args)
         {
-            LINSTANCE().Log(LogLevel::Trace, category, std::format(fmt, args...));
+            LINSTANCE().Log(LogLevel::Trace, category, std::format(fmt, std::forward<Args>(args)...));
         }
 
         template<typename... Args>
         void Info(const char* category, std::format_string<Args...> fmt, Args&&... args)
         {
-            LINSTANCE().Log(LogLevel::Info, category, std::format(fmt, args...));
+            LINSTANCE().Log(LogLevel::Info, category, std::format(fmt, std::forward<Args>(args)...));
         }
 
         template<typename... Args>
         void Warn(const char* category, std::format_string<Args...> fmt, Args&&... args)
         {
-            LINSTANCE().Log(LogLevel::Warning, category, std::format(fmt, args...));
+            LINSTANCE().Log(LogLevel::Warning, category, std::format(fmt, std::forward<Args>(args)...));
         }
 
         template<typename... Args>
         void Error(const char* category, std::format_string<Args...> fmt, Args&&... args)
         {
-            LINSTANCE().Log(LogLevel::Error, category, std::format(fmt, args...));
+            LINSTANCE().Log(LogLevel::Error, category, std::format(fmt, std::forward<Args>(args)...));
         }
 
         template<typename... Args>
         void Critical(const char* category, std::format_string<Args...> fmt, Args&&... args)
         {
-            LINSTANCE().Log(LogLevel::Critical, category, std::format(fmt, args...));
+            LINSTANCE().Log(LogLevel::Critical, category, std::format(fmt, std::forward<Args>(args)...));
         }
         
 #undef LINSTANCE

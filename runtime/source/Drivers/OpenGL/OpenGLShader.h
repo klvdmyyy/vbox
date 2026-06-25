@@ -1,3 +1,4 @@
+// -*- mode: c++; -*-
 #pragma once
 
 #include "Core/Base.h"
@@ -19,6 +20,6 @@ namespace ERUNTIME_NAMESPACE
         void Unbind() const final;
 
     private:
-        GLuint m_Program;
+        GLuint m_program;
     };
 }

@@ -11,22 +11,22 @@ namespace ERUNTIME_NAMESPACE
     public:
         inline void Write(const LogEntry& entry) final
         {
-            if(entry.Level == LogLevel::Error || entry.Level == LogLevel::Critical)
+            if(entry.level == LogLevel::Error || entry.level == LogLevel::Critical)
                 std::println(stderr, "{}{}{}[{}:{}] {}",
-                             entry.SourceFile.has_value() ? std::format("{}:", entry.SourceFile.value()) : "",
-                             entry.Line.has_value() ? std::format("{} ", entry.Line.value()) : "",
-                             entry.FunctionSignature.has_value() ? std::format("(in {}) ", entry.FunctionSignature.value()) : "",
-                             entry.Category,
-                             entry.Level,
-                             entry.Message);
+                             entry.sourceFile.has_value() ? std::format("{}:", entry.sourceFile.value()) : "",
+                             entry.line.has_value() ? std::format("{} ", entry.line.value()) : "",
+                             entry.functionSignature.has_value() ? std::format("(in {}) ", entry.functionSignature.value()) : "",
+                             entry.category,
+                             entry.level,
+                             entry.message);
             else
                 std::println("{}{}{}[{}:{}] {}",
-                             entry.SourceFile.has_value() ? std::format("{}:", entry.SourceFile.value()) : "",
-                             entry.Line.has_value() ? std::format("{} ", entry.Line.value()) : "",
-                             entry.FunctionSignature.has_value() ? std::format("(in {}) ", entry.FunctionSignature.value()) : "",
-                             entry.Category,
-                             entry.Level,
-                             entry.Message);
+                             entry.sourceFile.has_value() ? std::format("{}:", entry.sourceFile.value()) : "",
+                             entry.line.has_value() ? std::format("{} ", entry.line.value()) : "",
+                             entry.functionSignature.has_value() ? std::format("(in {}) ", entry.functionSignature.value()) : "",
+                             entry.category,
+                             entry.level,
+                             entry.message);
         }
     };
 }

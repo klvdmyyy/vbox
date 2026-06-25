@@ -34,7 +34,7 @@ namespace ERUNTIME_NAMESPACE
     class ERUNTIME_API EventDispatcher
     {
     public:
-        explicit EventDispatcher(const Event& e) : m_Event(e)
+        explicit EventDispatcher(const Event& e) : m_event(e)
         {
         }
 
@@ -43,16 +43,16 @@ namespace ERUNTIME_NAMESPACE
         {
             static_assert(std::is_base_of<Event, T>::value, "Can't dispatch event. Event type must be derived from core::Event");
 
-            if (m_Event.GetType() == T::GetStaticType())
+            if (m_event.GetType() == T::GetStaticType())
             {
-              handler(static_cast<const T &>(m_Event));
+              handler(static_cast<const T &>(m_event));
                 return true;
             }
             return false;
         }
 
     private:
-        const Event& m_Event;
+        const Event& m_event;
     };
 
     class ERUNTIME_API EventBus
@@ -70,11 +70,11 @@ namespace ERUNTIME_NAMESPACE
         void ProcessEvents();
 
     private:
-        std::vector<EventListener*> m_Listeners;
-        std::queue<Scope<Event>> m_EventQueue;
-        std::mutex m_Sync;
+        std::vector<EventListener*> m_listeners;
+        std::queue<Scope<Event>> m_eventQueue;
+        std::mutex m_sync;
 
-        bool m_ImmediateMode = true;
+        bool m_immediateMode = true;
 
         EventBus() = default;
     };

@@ -13,8 +13,8 @@ namespace ERUNTIME_NAMESPACE
 {
     struct CommandSpecification
     {
-        String Name;
-        String Description;  
+        String name;
+        String description;  
     };
 
     class ERUNTIME_API CommandArgs
@@ -29,7 +29,7 @@ namespace ERUNTIME_NAMESPACE
     private:
         CommandArgs(const std::vector<StringView>& args);
 
-        std::vector<StringView> m_Args;
+        std::vector<StringView> m_args;
     };
 
     using CommandCallback = std::function<void(const CommandArgs&)>;
@@ -57,8 +57,8 @@ namespace ERUNTIME_NAMESPACE
     private:
         StringCommandRunner() = default;
 
-        std::unordered_map<StringView, CommandCallback> m_CommandMap;
-        std::unordered_map<StringView, CommandSpecification> m_CommandSpecMap;
-        std::mutex m_Sync;
+        std::unordered_map<StringView, CommandCallback> m_commandMap;
+        std::unordered_map<StringView, CommandSpecification> m_commandSpecMap;
+        std::mutex m_sync;
     };
 }

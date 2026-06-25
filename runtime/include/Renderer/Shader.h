@@ -41,15 +41,5 @@ namespace ERUNTIME_NAMESPACE
 
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
-
-        // virtual void set_int(const core::String& name, int value) = 0;
-        // virtual void set_int_array(const core::String& name, int* value, uint32_t count) = 0;
-        
-        // virtual void set_float(const core::String& name, float value) = 0;
-        // virtual void set_float2(const core::String& name, math::Float2 value) = 0;
-        // virtual void set_float3(const core::String& name, math::Float3 value) = 0;
-        // virtual void set_float4(const core::String& name, math::Float4 value) = 0;
-
-        // virtual void set_mat4(const core::String& name, math::Float4x4 value);
     };
 }

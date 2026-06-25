@@ -1,3 +1,4 @@
+// -*- mode: c++; -*-
 #pragma once
 
 #include "Renderer/Context.h"
@@ -37,7 +38,7 @@ namespace ERUNTIME_NAMESPACE
         void Swap() final;
 
     private:
-        Ref<Window> m_Window;
-        SDL_GLContext m_Context;
+        Ref<Window> m_window;
+        SDL_GLContext m_context;
     };
 }

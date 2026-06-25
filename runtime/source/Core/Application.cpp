@@ -7,24 +7,24 @@
 
 namespace ERUNTIME_NAMESPACE
 {
-    Application* Application::s_Instance = nullptr;
+    Application* Application::s_instance = nullptr;
 
     Application::Application(const ApplicationSpecification& spec)
-        : m_Spec(spec), m_Running(true)
+        : k_spec(spec), m_running(true)
     {
         // Only one application instance for program.
-        EX_ASSERT(!s_Instance, "failed to create application. application instance already exists");
+        EX_ASSERT(!s_instance, "failed to create application. application instance already exists");
 
         // Setting up an application instance.
-        s_Instance = this;
+        s_instance = this;
 
         // Tracing macro
         ZoneScoped;
 
         // Initialization
         EventBus::Instance().AddListener(this);
-        m_Window = Ref<Window>(Window::Create(m_Spec.WindowSpec));
-        m_Context = Ref<Context>(Context::Create(m_Window));
+        m_window = Ref<Window>(Window::Create(k_spec.windowSpec));
+        m_context = Ref<Context>(Context::Create(m_window));
     }
 
     Application::~Application()
@@ -34,9 +34,9 @@ namespace ERUNTIME_NAMESPACE
 
     void Application::Run(int argc, char** argv)
     {
-        auto shader = Ref<Shader>(m_Context->CreateShader(VBOX_SIMPLE_SHADER));
+        auto shader = Ref<Shader>(m_context->CreateShader(VBOX_SIMPLE_SHADER));
 
-        auto vertex_array = Ref<VertexArray>(m_Context->CreateVertexArray());
+        auto vertex_array = Ref<VertexArray>(m_context->CreateVertexArray());
 
         float vertices[] = {
             0.5f, 0.5f, 0.0f,
@@ -45,7 +45,7 @@ namespace ERUNTIME_NAMESPACE
             -0.5f, 0.5f, 0.0f
         };
 
-        auto vertex_buffer = Ref<VertexBuffer>(m_Context->CreateVertexBuffer(vertices, sizeof(vertices)));
+        auto vertex_buffer = Ref<VertexBuffer>(m_context->CreateVertexBuffer(vertices, sizeof(vertices)));
 
         BufferLayout layout = {
             { "a_Position", ShaderDataType::Float3 },
@@ -58,27 +58,27 @@ namespace ERUNTIME_NAMESPACE
             1, 2, 3
         };
 
-        auto index_buffer = Ref<IndexBuffer>(m_Context->CreateIndexBuffer(indices, sizeof(indices)));
+        auto index_buffer = Ref<IndexBuffer>(m_context->CreateIndexBuffer(indices, sizeof(indices)));
 
         vertex_array->AddVertexBuffer(vertex_buffer);
         vertex_array->SetIndexBuffer(index_buffer);
 
-        while(m_Running)
+        while(m_running)
         {
             EventBus::Instance().ProcessEvents();
 
-            m_Window->Update();
+            m_window->Update();
 
-            m_Context->BeginScene();
+            m_context->BeginScene();
 
-            m_Context->SetClearColor(0.2f, 0.2f, 0.2f);
-            m_Context->Clear();
+            m_context->SetClearColor(0.2f, 0.2f, 0.2f);
+            m_context->Clear();
 
-            m_Context->Submit(shader, vertex_array);
+            m_context->Submit(shader, vertex_array);
 
-            m_Context->EndScene();
+            m_context->EndScene();
 
-            m_Context->Swap();
+            m_context->Swap();
 
             FrameMark;
         }
@@ -89,7 +89,7 @@ namespace ERUNTIME_NAMESPACE
         EventDispatcher dispatcher(event);
 
         dispatcher.Dispatch<WindowCloseEvent>([&](const WindowCloseEvent& e) {
-            m_Running = false;
+            m_running = false;
         });
     }
 }

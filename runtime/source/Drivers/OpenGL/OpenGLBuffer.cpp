@@ -6,18 +6,18 @@ namespace ERUNTIME_NAMESPACE
 {
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* data, uint32_t size)
     {
-        glCreateBuffers(1, &m_VBO);
+        glCreateBuffers(1, &m_vbo);
         this->Bind();
         glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
     OpenGLVertexBuffer::~OpenGLVertexBuffer()
-    { glDeleteBuffers(1, &m_VBO);
+    { glDeleteBuffers(1, &m_vbo);
     }
 
     void OpenGLVertexBuffer::Bind() const
     {
-      glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+      glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     }
 
     void OpenGLVertexBuffer::Unbind() const
@@ -26,21 +26,21 @@ namespace ERUNTIME_NAMESPACE
     }
 
     OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size)
-        : m_Count(size / sizeof(uint32_t))
+        : m_count(size / sizeof(uint32_t))
     {
-        glCreateBuffers(1, &m_EBO);
+        glCreateBuffers(1, &m_ebo);
         this->Bind();
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
     }
 
     OpenGLIndexBuffer::~OpenGLIndexBuffer()
     {
-        glDeleteBuffers(1, &m_EBO);
+        glDeleteBuffers(1, &m_ebo);
     }
 
     void OpenGLIndexBuffer::Bind() const
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
     }
 
     void OpenGLIndexBuffer::Unbind() const

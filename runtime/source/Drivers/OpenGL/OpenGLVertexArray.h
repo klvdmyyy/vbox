@@ -1,3 +1,4 @@
+// -*- mode: c++; -*-
 #pragma once
 
 #include "Core/Base.h"
@@ -23,16 +24,16 @@ namespace ERUNTIME_NAMESPACE
 
         [[nodiscard]]
         const std::vector<Ref<VertexBuffer>> &GetVertexBuffers() const final {
-          return m_VertexBuffers;
+          return m_vertexBuffers;
         }
         const Ref<IndexBuffer> &GetIndexBuffer() const final {
-          return m_IndexBuffer;
+          return m_indexBuffer;
         }
 
     private:
-        GLuint m_VAO;
+        GLuint m_vao;
 
-        std::vector<Ref<VertexBuffer>> m_VertexBuffers;
-        Ref<IndexBuffer> m_IndexBuffer;
+        std::vector<Ref<VertexBuffer>> m_vertexBuffers;
+        Ref<IndexBuffer> m_indexBuffer;
     };
 }

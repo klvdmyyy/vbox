@@ -15,12 +15,12 @@ TEST(string_command_runner_test, command_args)
 TEST(string_command_runner_test, basic_assertions)
 {
     ASSERT_TRUE(StringCommandRunner::Instance().AddCommand(
-        { .Name = "just_a_cmd", .Description = "description" },
+        { .name = "just_a_cmd", .description = "description" },
                       [](CommandArgs args) { EXPECT_EQ(args.Count(), 2); }
     ).has_value());
 
     ASSERT_FALSE(StringCommandRunner::Instance().AddCommand(
-        { .Name = "just_a_cmd", .Description = "description" },
+        { .name = "just_a_cmd", .description = "description" },
         [](auto _) {}
     ).has_value());
 

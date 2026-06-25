@@ -16,9 +16,9 @@ namespace ERUNTIME_NAMESPACE
 {
     struct ApplicationSpecification
     {
-        String Name;
-        String Description;
-        WindowSpecification WindowSpec;
+        String name;
+        String description;
+        WindowSpecification windowSpec;
     };
 
     class ERUNTIME_API Application : EventListener
@@ -26,27 +26,27 @@ namespace ERUNTIME_NAMESPACE
     public:
         ~Application();
 
-        static Application& Instance() { return *s_Instance; }
+        static Application& Instance() { return *s_instance; }
 
         void Run(int argc, char** argv);
 
         void OnEvent(const Event& event) final;
 
-        ApplicationSpecification GetSpec() const noexcept { return m_Spec; }
-        Window& GetWindow() const noexcept { return *m_Window; }
-        Context& GetContext() const noexcept { return *m_Context; }
+        ApplicationSpecification GetSpec() const noexcept { return k_spec; }
+        Window& GetWindow() const noexcept { return *m_window; }
+        Context& GetContext() const noexcept { return *m_context; }
 
     protected:
         Application(const ApplicationSpecification& spec);
 
     private:
-        static Application* s_Instance;
+        static Application* s_instance;
 
-        const ApplicationSpecification m_Spec;
+        const ApplicationSpecification k_spec;
 
-        Ref<Window> m_Window;
-        Ref<Context> m_Context;
+        Ref<Window> m_window;
+        Ref<Context> m_context;
 
-        bool m_Running;
+        bool m_running;
     };
 }

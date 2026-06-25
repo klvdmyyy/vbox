@@ -8,12 +8,12 @@
 using namespace ERUNTIME_NAMESPACE;
 
 static auto g_VBoxSpec = ApplicationSpecification {
-    .Name = "VBox Game",
-    .Description = "Voxel Sandbox Game",
-    .WindowSpec = {
-        .Width = 800,
-        .Height = 600,
-        .Title = "VBox 1.0",
+    .name = "VBox Game",
+    .description = "Voxel Sandbox Game",
+    .windowSpec = {
+        .width = 800,
+        .height = 600,
+        .title = "VBox 1.0",
     },
 };
 

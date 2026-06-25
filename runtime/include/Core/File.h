@@ -18,7 +18,7 @@ namespace ERUNTIME_NAMESPACE
         String ReadStr();
 
     private:
-        std::fstream m_File;
-        const std::filesystem::path k_Filepath;
+        std::fstream m_file;
+        std::filesystem::path k_filepath;
     };
 }

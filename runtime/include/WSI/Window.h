@@ -24,11 +24,11 @@ namespace ERUNTIME_NAMESPACE
 
     struct WindowSpecification
     {
-        std::uint32_t Width;
-        std::uint32_t Height;
-        String Title;
-        bool Resizable = false;
-        bool Fullscreen = false;
+        std::uint32_t width;
+        std::uint32_t height;
+        String title;
+        bool resizable = false;
+        bool fullscreen = false;
     };
 
     class ERUNTIME_API Window

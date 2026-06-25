@@ -10,20 +10,20 @@
 
 namespace ERUNTIME_NAMESPACE {
     OpenGLContext::OpenGLContext(const Ref<Window>& window)
-        : m_Window(window)
+        : m_window(window)
     {
-        m_Context = SDL_GL_CreateContext(static_cast<SDL_Window*>(m_Window->GetWindowHandle()));
+        m_context = SDL_GL_CreateContext(static_cast<SDL_Window*>(m_window->GetWindowHandle()));
 
-        EX_ASSERT(m_Context, "failed to create opengl context. sdl error: {}", SDL_GetError());
+        EX_ASSERT(m_context, "failed to create opengl context. sdl error: {}", SDL_GetError());
 
-        SDL_GL_MakeCurrent(static_cast<SDL_Window*>(m_Window->GetWindowHandle()), m_Context);
+        SDL_GL_MakeCurrent(static_cast<SDL_Window*>(m_window->GetWindowHandle()), m_context);
 
         EX_ASSERT(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress), "failed to load opengl loader!");
     }
 
     OpenGLContext::~OpenGLContext()
     {
-        SDL_GL_DestroyContext(m_Context);
+        SDL_GL_DestroyContext(m_context);
     }
 
     void OpenGLContext::SetClearColor(float r, float g, float b)
@@ -38,13 +38,13 @@ namespace ERUNTIME_NAMESPACE {
 
     void OpenGLContext::Swap()
     {
-        SDL_GL_SwapWindow(static_cast<SDL_Window*>(m_Window->GetWindowHandle()));
+        SDL_GL_SwapWindow(static_cast<SDL_Window*>(m_window->GetWindowHandle()));
     }
 
     void OpenGLContext::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray)
     {
         shader->Bind();
-      vertexArray->Bind();
+        vertexArray->Bind();
         glDrawElements(GL_TRIANGLES,
                        vertexArray->GetIndexBuffer()->GetCount(),
                        GL_UNSIGNED_INT, 0);

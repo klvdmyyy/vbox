@@ -25,25 +25,25 @@ namespace ERUNTIME_NAMESPACE {
 
     Logger& Logger::Instance()
     {
-        static Logger s_Logger;
-        return s_Logger;
+        static Logger s_logger;
+        return s_logger;
     }
 
     void Logger::AddSink(Scope<LogSink> sink) {
-        m_Sinks.push_back(std::move(sink));
+        m_sinks.push_back(std::move(sink));
     }
 
     void Logger::Log(LogLevel level, const char *category, StringView message,
                      std::optional<const char *> sourceFile,
                      std::optional<int> line,
                      std::optional<const char *> functionSignature) {
-        for (auto& sink : m_Sinks) {
-            sink->Write(LogEntry{.Level = level,
-                                 .Category = category,
-                                 .Message = message,
-                                 .SourceFile = sourceFile.has_value() ? std::optional(fs::relative(sourceFile.value(), EX_PROJECT_ROOT).c_str()) : std::nullopt,
-                                 .Line = line,
-                                 .FunctionSignature = functionSignature});
+        for (auto& sink : m_sinks) {
+            sink->Write(LogEntry{.level = level,
+                                 .category = category,
+                                 .message = message,
+                                 .sourceFile = sourceFile.has_value() ? std::optional(fs::relative(sourceFile.value(), EX_PROJECT_ROOT).c_str()) : std::nullopt,
+                                 .line = line,
+                                 .functionSignature = functionSignature});
         }
     }
 }
