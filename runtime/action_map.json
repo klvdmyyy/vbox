@@ -1,6 +1,15 @@
 {
     "actions": [
         {
+            "name": "Menu",
+            "bindings": [
+                {
+                    "device": "Keyboard",
+                    "scancode": 41
+                }
+            ]
+        },
+        {
             "name": "Jump",
             "bindings": [
                 {
