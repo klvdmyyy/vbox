@@ -32,6 +32,11 @@ namespace ERUNTIME_NAMESPACE {
 
         void AddAction(const String& name, const ActionBinding& binding);
 
+        // ---------------------------------------------------------------------
+        // Проверяет состояние привязки по имени действия.
+        //
+        // Для проверки состояние использует `Input::IsKeyPressed(SCANCODE)`
+        // ---------------------------------------------------------------------
         [[nodiscard]]
         bool IsPressed(const String& name) const;
 
@@ -89,6 +94,10 @@ namespace ERUNTIME_NAMESPACE {
 
         void SetActionMap(const ActionMap& map);
 
+        // ---------------------------------------------------------------------
+        // Возвращает значение m_actionMap.IsPressed(name) сверяясь перед этим
+        // с текущим контекстом (m_contextStack)
+        // ---------------------------------------------------------------------
         [[nodiscard]]
         bool IsPressed(const String& name) const;
 
