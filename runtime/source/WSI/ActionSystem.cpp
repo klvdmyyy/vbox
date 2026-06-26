@@ -12,7 +12,7 @@ using json = nlohmann::json;
 namespace ERUNTIME_NAMESPACE {
     void ActionMap::Update()
     {
-        for(auto& [name, action] : m_bindingMap) {
+        for(auto& [name, action] : m_actionDataMap) {
             bool rawPressed = Input::IsKeyPressed(action.binding.scancode);
 
             switch(action.state) {
@@ -37,23 +37,46 @@ namespace ERUNTIME_NAMESPACE {
     
     void ActionMap::AddAction(const String& name, const ActionBinding& binding)
     {
-        if(m_bindingMap.contains(name)) {
+        if(m_actionDataMap.contains(name)) {
             Debug::Warn(LogCategory::WSI, "Trying to add an already existing action to ActionMap! Action name: {}", name);
             return;
         }
 
-        m_bindingMap.insert({name, ActionData { .binding = binding }});
+        m_actionDataMap.insert({name, ActionData { .binding = binding }});
     }
 
     bool ActionMap::IsPressed(const String& name) const
     {
-        if(!m_bindingMap.contains(name)) {
-            Debug::Warn(LogCategory::WSI, "Trying to check unexisting action in ActionMap! Action name: {}", name);
+        if(!m_actionDataMap.contains(name)) {
+            Debug::Warn(LogCategory::WSI, "Trying to check state of unexisting action in ActionMap! Action name: {}", name);
             return false;
         }
 
-        auto it = m_bindingMap.find(name);
+        auto it = m_actionDataMap.find(name);
         return it->second.state == ActionState::Pressed;
+    }
+
+    bool ActionMap::IsReleased(const String& name) const
+    {
+        if(!m_actionDataMap.contains(name)) {
+            Debug::Warn(LogCategory::WSI, "Trying to check state of unexisting action in ActionMap! Action name: {}", name);
+            return false;
+        }
+
+        auto it = m_actionDataMap.find(name);
+        return it->second.state == ActionState::Released;
+    }
+
+    bool ActionMap::IsHeld(const String& name) const
+    {
+        if(!m_actionDataMap.contains(name)) {
+            Debug::Warn(LogCategory::WSI, "Trying to check state of unexisting action in ActionMap! Action name: {}", name);
+            return false;
+        }
+
+        auto it = m_actionDataMap.find(name);
+        return it->second.state == ActionState::Pressed
+            || it->second.state == ActionState::Held;
     }
 
     ActionMap ActionMap::LoadFromFile(const std::filesystem::path filepath)
@@ -124,5 +147,21 @@ namespace ERUNTIME_NAMESPACE {
             return false;
 
         return m_actionMap.IsPressed(name);
+    }
+
+    bool ActionSystem::IsReleased(const String& name) const
+    {
+        if (m_contextStack.empty() || !m_contextStack.top().HasAction(name))
+            return false;
+
+        return m_actionMap.IsReleased(name);
+    }
+
+    bool ActionSystem::IsHeld(const String& name) const
+    {
+        if (m_contextStack.empty() || !m_contextStack.top().HasAction(name))
+            return false;
+
+        return m_actionMap.IsHeld(name);
     }
 }

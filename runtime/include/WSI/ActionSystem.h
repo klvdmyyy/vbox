@@ -14,6 +14,9 @@
 #include <filesystem>
 
 namespace ERUNTIME_NAMESPACE {
+    // ---------------------------------------------------------------------
+    // Состояние действия. (Idle, Pressed, Released or Held)
+    // ---------------------------------------------------------------------
     enum class ActionState {
         Idle = 0,
         Pressed,
@@ -38,17 +41,23 @@ namespace ERUNTIME_NAMESPACE {
     public:
         ActionMap() = default;
 
+        // ---------------------------------------------------------------------
+        // Обновляет состояние всех действий. Использует "сырые" функции
+        // по типу `Input::IsKeyPressed(SCANCODE)`
+        // ---------------------------------------------------------------------
         void Update();
 
         void AddAction(const String& name, const ActionBinding& binding);
 
         // ---------------------------------------------------------------------
-        // Проверяет состояние привязки по имени действия.
-        //
-        // Для проверки состояние использует `Input::IsKeyPressed(SCANCODE)`
+        // Проверяют состояние бинда по имени действия.
         // ---------------------------------------------------------------------
         [[nodiscard]]
         bool IsPressed(const String& name) const;
+        [[nodiscard]]
+        bool IsReleased(const String& name) const;
+        [[nodiscard]]
+        bool IsHeld(const String& name) const;
 
         // ---------------------------------------------------------------------
         // Создаёт/читает (десериализует) карту действий из JSON формата.
@@ -62,12 +71,16 @@ namespace ERUNTIME_NAMESPACE {
         void SaveToFile(const std::filesystem::path filepath);
 
     private:
+        // ---------------------------------------------------------------------
+        // При добавлении действия, оно оборачивается в данную структуру данных,
+        // для удобства отслеживания состояний.
+        // ---------------------------------------------------------------------
         struct ActionData {
             ActionState state = ActionState::Idle;
             ActionBinding binding;
         };
 
-        std::unordered_map<String, ActionData> m_bindingMap{};
+        std::unordered_map<String, ActionData> m_actionDataMap{};
     };
 
     // ---------------------------------------------------------------------
@@ -142,6 +155,20 @@ namespace ERUNTIME_NAMESPACE {
         // ---------------------------------------------------------------------
         [[nodiscard]]
         bool IsPressed(const String& name) const;
+
+        // ---------------------------------------------------------------------
+        // Возвращает значение m_actionMap.IsReleased(name) сверяясь перед этим
+        // с текущим контекстом (m_contextStack)
+        // ---------------------------------------------------------------------
+        [[nodiscard]]
+        bool IsReleased(const String& name) const;
+
+        // ---------------------------------------------------------------------
+        // Возвращает значение m_actionMap.IsHeld(name) сверяясь перед этим
+        // с текущим контекстом (m_contextStack)
+        // ---------------------------------------------------------------------
+        [[nodiscard]]
+        bool IsHeld(const String& name) const;
 
     private:
         ActionMap m_actionMap{};
