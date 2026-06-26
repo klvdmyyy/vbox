@@ -23,6 +23,7 @@ namespace ERUNTIME_NAMESPACE
     {
         constexpr auto Core = "Core";
         constexpr auto IO = "I/O";
+        constexpr auto WSI = "WSI";
         constexpr auto Renderer = "Renderer";
         constexpr auto Driver = "Driver";
     }

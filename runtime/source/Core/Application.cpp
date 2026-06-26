@@ -3,6 +3,8 @@
 
 #include "Core/Assert.h"
 
+#include "WSI/ActionSystem.h"
+
 #include <tracy/Tracy.hpp>
 
 namespace ERUNTIME_NAMESPACE
@@ -63,9 +65,32 @@ namespace ERUNTIME_NAMESPACE
         vertex_array->AddVertexBuffer(vertex_buffer);
         vertex_array->SetIndexBuffer(index_buffer);
 
+        ActionMap actionMap;
+        actionMap.AddAction("1", ActionBinding { .device = InputDevice::Keyboard, .scancode = 30 });
+        actionMap.AddAction("2", ActionBinding { .device = InputDevice::Keyboard, .scancode = 31 });
+        actionMap.AddAction("3", ActionBinding { .device = InputDevice::Keyboard, .scancode = 32 });
+        actionMap.AddAction("4", ActionBinding { .device = InputDevice::Keyboard, .scancode = 33 });
+
+        ActionSystem::Instance().PushContext(ActionContext{"1", "2", "3"});
+        ActionSystem::Instance().PushContext(ActionContext{"1", "2", "4"});
+
+        ActionSystem::Instance().SetActionMap(actionMap);
+
         while(m_running)
         {
             EventBus::Instance().ProcessEvents();
+
+            if(ActionSystem::Instance().IsPressed("1"))
+                EX_LOG(Trace, LogCategory::WSI, "1 is pressed!");
+
+            if(ActionSystem::Instance().IsPressed("2"))
+                EX_LOG(Trace, LogCategory::WSI, "2 is pressed!");
+
+            if(ActionSystem::Instance().IsPressed("3"))
+                EX_LOG(Trace, LogCategory::WSI, "3 is pressed!");
+
+            if(ActionSystem::Instance().IsPressed("4"))
+                ActionSystem::Instance().PopContext();
 
             m_window->Update();
 
