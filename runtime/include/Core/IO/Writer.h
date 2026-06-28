@@ -5,6 +5,8 @@
 
 #include "Core/String.h"
 
+#include <format>
+
 namespace ERUNTIME_NAMESPACE::IO {
     class ERUNTIME_API Writer {
     public:
@@ -20,13 +22,13 @@ namespace ERUNTIME_NAMESPACE::IO {
         }
 
         template<typename... Args>
-        inline void WriteFmt(StringView fmt, Args&&... args)
+        inline void WriteFmt(std::format_string<Args...> fmt, Args&&... args)
         {
             Write(std::format(fmt, std::forward<Args>(args)...));
         }
 
         template<typename... Args>
-        inline void WriteLineFmt(StringView fmt, Args&&... args)
+        inline void WriteLineFmt(std::format_string<Args...> fmt, Args&&... args)
         {
             WriteLine(std::format(fmt, std::forward<Args>(args)...));
         }

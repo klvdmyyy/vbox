@@ -4,24 +4,26 @@
 
 #include "Core/Types.h"
 
+#include "Core/IO/Writer.h"
+
 #include <print>
 #include <deque>
 
 namespace ERUNTIME_NAMESPACE
 {
-    class BufferLogSink : public LogSink
+    class BufferLogSink : public LogSink, public IO::Writer
     {
     public:
         static constexpr Uint64 MAX_ENTRY_COUNT = 100;
 
         static BufferLogSink& Instance();
 
-        inline void WriteStr(const String& message)
+        void Write(StringView str) final
         {
             if(m_entries.size() > MAX_ENTRY_COUNT)
                 m_entries.pop_front();
-
-            m_entries.push_back(message);
+            
+            m_entries.push_back(String(str));
         }
 
         inline void Write(const LogEntry& entry) final

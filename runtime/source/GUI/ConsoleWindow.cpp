@@ -11,7 +11,7 @@
 
 namespace ERUNTIME_NAMESPACE::GUI {
     ConsoleWindow::ConsoleWindow()
-        : Window("Console")
+        : Window("Console"), m_writer(BufferLogSink::Instance())
     {
         // Hide console at startup.
         Hide();
@@ -19,7 +19,7 @@ namespace ERUNTIME_NAMESPACE::GUI {
         StringCommandRunner::Instance().AddCommand({ .name = "help",    .description = "Prints help for registered command" },
                                                    [](const CommandArgs& args, IO::Writer& writer) {
                                                        if(args.Count() != 1) {
-                                                           writer.WriteLine("Usage: `help <cmd_name>`");
+                                                           writer.Write("Usage: `help <cmd_name>`");
                                                            return;
                                                        }
 
@@ -27,25 +27,21 @@ namespace ERUNTIME_NAMESPACE::GUI {
                                                        if(result) {
                                                            auto spec = (*result);
 
-                                                           writer.WriteLineFmt("{} - {}", spec.name, spec.description);
+                                                           writer.WriteFmt("{} - {}", spec.name, spec.description);
                                                        } else {
-                                                           writer.WriteLineFmt("Help fail: {}", result.error());
+                                                           writer.WriteFmt("Help fail: {}", result.error());
                                                        }
                                                    });
         StringCommandRunner::Instance().AddCommand({ .name = "history", .description = "Prints all console history" },
                                                    [&](const CommandArgs& args, IO::Writer& writer) {
-                                                       writer.WriteLine("HISTORY:");
+                                                       writer.Write("HISTORY:");
                                                        for(const auto& entry : m_history)
-                                                           writer.WriteLineFmt("\t{}", entry);
+                                                           writer.WriteFmt("\t{}", entry);
                                                    });
     }
 
     void ConsoleWindow::DrawOutput()
     {
-        if(m_autoScroll) {
-            ImGui::SetScrollHereY(1.0f);
-            m_autoScroll = false;
-        }
 
         ImGuiWindowFlags flags = ImGuiWindowFlags_HorizontalScrollbar;
 
@@ -55,10 +51,15 @@ namespace ERUNTIME_NAMESPACE::GUI {
         for (const auto& entry : BufferLogSink::Instance().GetEntries()) {
             ImGui::TextUnformatted(entry.c_str());
         }
-        
+
         // Проверяем, прокрутил ли пользователь вверх
         if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
             m_autoScroll = true;
+        }
+        
+        if(m_autoScroll) {
+            ImGui::SetScrollHereY(1.0f);
+            m_autoScroll = false;
         }
         
         ImGui::EndChild();
@@ -80,7 +81,7 @@ namespace ERUNTIME_NAMESPACE::GUI {
                 m_history.push_back(m_inputBuffer);
                 m_historyIndex = static_cast<int>(m_history.size());
                 
-                m_writer.WriteLineFmt("> {}", m_inputBuffer);
+                m_writer.WriteFmt("> {}", m_inputBuffer);
                 StringCommandRunner::Instance().Run(m_inputBuffer, m_writer);
                 
                 m_inputBuffer = "";

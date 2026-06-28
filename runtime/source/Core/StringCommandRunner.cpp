@@ -133,12 +133,6 @@ namespace ERUNTIME_NAMESPACE
     {
         if(!m_commandSpecMap.contains(String(cmd)))
         {
-            for(auto [name, _] : m_commandMap) {
-                std::println("{}", name);
-            }
-            for(auto [name, _] : m_commandSpecMap) {
-                std::println("{}", name);
-            }
             return std::unexpected(std::format("Failed to get command specification. Command doesn't exists: '{}'", cmd));
         }
 
