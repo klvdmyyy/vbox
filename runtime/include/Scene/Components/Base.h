@@ -3,10 +3,12 @@
 
 #include "Core/Base.h"
 #include "Core/Memory.h"
+#include "Core/String.h"
 
 #include "Math/Vector.h"
 
 #include "Renderer/VertexArray.h"
+#include "Renderer/Shader.h"
 
 namespace ERUNTIME_NAMESPACE {
     struct Transform {
@@ -18,8 +20,8 @@ namespace ERUNTIME_NAMESPACE {
     struct Mesh {
         Ref<VertexArray> vertexArray;
 
-        struct {
-            // TODO...
+        struct Material {
+            String shader;
         } material;
     };
 }

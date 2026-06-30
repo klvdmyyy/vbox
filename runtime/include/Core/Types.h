@@ -16,4 +16,29 @@ namespace ERUNTIME_NAMESPACE {
     using Int16 = int16_t;
     using Int32 = int32_t;
     using Int64 = int64_t;
+
+    class UUID {
+    public:
+        UUID();
+        UUID(Uint64 uuid);
+        UUID(const UUID& other) = default;
+
+        operator Uint64() const { return m_uuid; }
+
+    private:
+        Uint64 m_uuid;
+    };
+}
+
+namespace std {
+    template<typename T>
+    struct hash;
+
+    template<>
+    struct hash<::ERUNTIME_NAMESPACE::UUID>
+    {
+        std::size_t operator()(const ::ERUNTIME_NAMESPACE::UUID& uuid) const {
+            return (::ERUNTIME_NAMESPACE::Uint64)uuid;
+        }
+    };
 }

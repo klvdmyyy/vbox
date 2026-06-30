@@ -16,6 +16,26 @@ namespace ERUNTIME_NAMESPACE {
                                 writer.WriteFmt("\t{}", filepath);
                             }
                         });
+
+        StringCommandRunner::Instance()
+            .AddCommand({ .name = "load_shader", .description = "Loading shaders" },
+                        [this](const CommandArgs& args, IO::Writer& writer) {
+                            if(args.Count() != 1) {
+                                writer.Write("Usage: load_shader <SHADER_FILEPATH>");
+                                return;
+                            }
+                            this->LoadShader(String(args.Get(0)));
+                        });
+
+        // StringCommandRunner::Instance()
+        //     .AddCommand({ .name = "unload_shader", .description = "Unloading shaders" },
+        //                 [this](const CommandArgs& args, IO::Writer& writer) {
+        //                     if(args.Count() != 1) {
+        //                         writer.Write("Usage: unload_shader <SHADER_FILEPATH>");
+        //                         return;
+        //                     }
+        //                     this->UnloadShader(String(args.Get(0)));
+        //                 });
         
         StringCommandRunner::Instance()
             .AddCommand({ .name = "reload_shader", .description = "Reloading shaders" },

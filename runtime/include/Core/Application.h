@@ -12,7 +12,7 @@
 
 #include "Renderer/Context.h"
 
-#include "ECS/Scene.h"
+#include "Scene/Scene.h"
 
 #include "GUI/Context.h"
 

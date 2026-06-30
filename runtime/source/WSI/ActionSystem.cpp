@@ -1,6 +1,7 @@
 #include "WSI/ActionSystem.h"
 
 #include "Core/Debug/Log.h"
+#include "Core/StringCommandRunner.h"
 
 #include <vector>
 #include <fstream>
@@ -185,7 +186,10 @@ namespace ERUNTIME_NAMESPACE {
                                 writer.Write("Usage: bind <ACTION_NAME> <SCANCODE>");
                                 return;
                             }
-                            Bind(String(args.Get(0)), std::stoi(String(args.Get(1))));
+                            m_actionMap.Bind(String(args.Get(0)), ActionBinding {
+                                    .device = InputDevice::Keyboard,
+                                    .scancode = std::stoi(String(args.Get(1)))
+                                });
                         });
     }
 }
