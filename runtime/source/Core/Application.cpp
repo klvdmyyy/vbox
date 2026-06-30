@@ -1,7 +1,8 @@
 
 #include "Core/Application.h"
-
 #include "Core/Assert.h"
+
+#include "Core/Resources/ResourceManager.h"
 
 #include "WSI/ActionSystem.h"
 
@@ -28,6 +29,8 @@ namespace ERUNTIME_NAMESPACE
         m_window = Ref<Window>(Window::Create(k_spec.windowSpec));
         m_context = Ref<Context>(Context::Create(m_window));
         m_guiContext = CreateScope<GUI::Context>(m_context);
+        
+        ResourceManager::Instance().SetRendererContext(m_context);
     }
 
     Application::~Application()
@@ -39,7 +42,8 @@ namespace ERUNTIME_NAMESPACE
     {
         this->OnInit();
         
-        auto shader = Ref<Shader>(m_context->CreateShader(VBOX_SIMPLE_SHADER));
+        // auto shader = Ref<Shader>(m_context->CreateShader(VBOX_SIMPLE_SHADER));
+        ResourceManager::Instance().LoadShader(VBOX_SIMPLE_SHADER);
 
         auto vertex_array = Ref<VertexArray>(m_context->CreateVertexArray());
 
@@ -85,7 +89,7 @@ namespace ERUNTIME_NAMESPACE
             m_context->SetClearColor(0.2f, 0.2f, 0.2f);
             m_context->Clear();
 
-            m_context->Submit(shader, vertex_array);
+            m_context->Submit(ResourceManager::Instance().GetShader(VBOX_SIMPLE_SHADER), vertex_array);
             
             m_context->EndScene();
 

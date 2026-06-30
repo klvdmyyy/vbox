@@ -26,7 +26,7 @@ namespace ERUNTIME_NAMESPACE
         constexpr auto WSI = "WSI";
         constexpr auto Renderer = "Renderer";
         constexpr auto Driver = "Driver";
-        
+        constexpr auto Resources = "Resources";
         constexpr auto Console = "Console";
     }
 
