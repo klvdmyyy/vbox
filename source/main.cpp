@@ -26,6 +26,7 @@ static auto g_VBoxSpec = ApplicationSpecification {
         .width = 800,
         .height = 600,
         .title = "VBox 1.0",
+        .resizable = false,
     },
 };
 
